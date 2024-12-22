@@ -1,0 +1,4 @@
+*.in
+*.json
+http_results.txt
+https_results.txt
