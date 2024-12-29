@@ -1,4 +1,8 @@
 *.in
 *.json
-http_results.txt
-https_results.txt
+*.txt
+.DS_Store
+
+# ignore folders
+sessions/
+tmp/
