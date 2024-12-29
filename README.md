@@ -205,7 +205,7 @@ Before using Docker, ensure you have the following installed:
 2. **Build the Docker Image**:
    Run the following command to build the Docker image:
    ```bash
-   docker build -t knull.
+   docker build -t knull .
    ```
 
    This will create a Docker image named `knull` with all the necessary dependencies installed.
