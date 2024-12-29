@@ -46,12 +46,34 @@ def parse_masscan_results(output_file):
     return services
 
 # Step 3: Fetch Webpage Content
+#def fetch_webpage(ip, port):
+#    protocol = "https" if port == 443 else "http"
+#    url = f"{protocol}://{ip}:{port}"
+#    try:
+#        response = requests.get(url, verify=False, timeout=5)
+#        print(f"[+] Successfully fetched {url}")
+#        return ip, port, response.text[:500]  # Limit content preview to 500 chars
+#    except requests.RequestException as e:
+#        print(f"[-] Failed to fetch {url}: {e}")
+#        return ip, port, "ERROR"
 def fetch_webpage(ip, port):
     protocol = "https" if port == 443 else "http"
     url = f"{protocol}://{ip}:{port}"
+
     try:
-        response = requests.get(url, verify=False, timeout=5)
-        print(f"[+] Successfully fetched {url}")
+        # Parse and sanitize the URL
+        parsed = urlparse(url)
+        sanitized_hostname = parsed.hostname.lstrip(".") if parsed.hostname else None
+        if not sanitized_hostname:
+            print(f"[-] Invalid URL: {url}")
+            return ip, port, "INVALID_URL"
+        
+        # Rebuild the sanitized URL
+        sanitized_url = urlunparse(parsed._replace(netloc=f"{sanitized_hostname}:{port}"))
+        
+        # Make the request
+        response = requests.get(sanitized_url, verify=False, timeout=5)
+        print(f"[+] Successfully fetched {sanitized_url}")
         return ip, port, response.text[:500]  # Limit content preview to 500 chars
     except requests.RequestException as e:
         print(f"[-] Failed to fetch {url}: {e}")
