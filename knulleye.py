@@ -58,7 +58,7 @@ def take_screenshot(url, filename):
         driver.get(url)
 
         # Wait for page to fully load (adjust as needed)
-        wait = WebDriverWait(driver, 100)
+        wait = WebDriverWait(driver, 10)
         wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
 
         # Set window size to capture full page screenshot
